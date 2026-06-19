@@ -4,7 +4,7 @@ import './CheckoutPage.css';
 export function CheckoutPage() {
   return(
     <>
-      <link rel="icon" type="image/svg+xml" href="/images/icons/cart-favicon.png" />
+      <link rel="icon" type="image/svg+xml" href="/images/cart-favicon.png" />
 
       <title>Checkout</title>
 

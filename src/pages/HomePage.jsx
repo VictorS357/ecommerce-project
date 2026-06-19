@@ -4,9 +4,16 @@ import checkmark from '../assets/images/icons/checkmark.png';
 import './HomePage.css';
 
 export function HomePage() {
+  fetch('http://localhost:3000/api/products')
+    .then(res => {
+      return res.json();
+    }).then((data) => {
+      console.log(data);
+    });
+
   return (
     <>
-      <link rel="icon" type="image/svg+xml" href="/images/icons/home-favicon.png" />
+      <link rel="icon" type="image/svg+xml" href="/images/home-favicon.png" />
 
       <title>Ecommerce Project</title>
 
