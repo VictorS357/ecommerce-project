@@ -1,6 +1,6 @@
 import { formatMoney } from "../utils/money";
 
-export default function CartItemDetails(cartItem) {
+export default function CartItemDetails({cartItem}) {
   return (
     <>
       <img className="product-image"

@@ -1,4 +1,4 @@
-import DeliveryDate from "../../components/Deliverydate";
+import DeliveryDate from "../../components/DeliveryDate";
 import CartItemDetails from "../../components/CartItemDetails";
 import { DeliveryOptions } from "./DeliveryOptions";
 
