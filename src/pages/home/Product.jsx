@@ -6,6 +6,20 @@ import checkmark from '../../assets/images/icons/checkmark.png'
 export default function Product({ product, loadCart }) {
   const [quantity, setQuantity] = useState(1);
 
+  const addToCart = async () => {
+    await axios.post('/api/cart-items', {
+      productId: product.id,
+      quantity
+    });
+
+    await loadCart();
+  }
+
+  const selectQuantity = (e) => {
+    const quantitySelected = Number(e.target.value);
+    setQuantity(quantitySelected);
+  }
+
   return (
     <div className="product-container">
       <div className="product-image-container">
@@ -30,10 +44,7 @@ export default function Product({ product, loadCart }) {
       </div>
 
       <div className="product-quantity-container">
-        <select value={quantity} onChange={(e) => {
-          const quantitySelected = Number(e.target.value);
-          setQuantity(quantitySelected);
-        }}>
+        <select value={quantity} onChange={selectQuantity}>
           <option value="1">1</option>
           <option value="2">2</option>
           <option value="3">3</option>
@@ -55,14 +66,7 @@ export default function Product({ product, loadCart }) {
       </div>
 
       <button className="add-to-cart-button button-primary"
-        onClick={async () => {
-          await axios.post('/api/cart-items', {
-            productId: product.id,
-            quantity: quantity
-          });
-
-          await loadCart();
-        }}>
+        onClick={addToCart}>
         Add to Cart
       </button>
     </div>
