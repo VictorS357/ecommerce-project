@@ -26,6 +26,15 @@ export default function CartItemDetails({ cartItem, loadCart }) {
     setQuantity(event.target.value);
   }
 
+  const keyDown = (event) => {
+    if(event.key === 'Enter') {
+      updateCartItem();
+    }else if(event.key === 'Escape') {
+      setQuantity(cartItem.quantity);
+      setUpdate(false);
+    }
+  }
+
   return (
     <>
       <img className="product-image"
@@ -47,6 +56,7 @@ export default function CartItemDetails({ cartItem, loadCart }) {
                 style={{ width: "50px" }} 
                 value={quantity} 
                 onChange={saveQuantity}
+                onKeyDown={keyDown}
               /> :
               <span className="quantity-label">{cartItem.quantity}</span>}
           </span>
