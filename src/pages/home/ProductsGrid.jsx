@@ -7,7 +7,7 @@ export function ProductsGrid({ products, loadCart }) {
         return (
           <Product key={product.id} product={product} loadCart={loadCart} />
         );
-      })};
+      })}
     </div>
   );
 }
