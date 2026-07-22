@@ -27,6 +27,12 @@ export function Header({ cart }) {
     navigate(`/?search=${search}`);
   }
 
+  const keyDownSearch = (event) => {
+    if(event.key === 'Enter') {
+      searchItem();
+    }
+  }
+
   return (
     <>
       <div className="header">
@@ -40,7 +46,14 @@ export function Header({ cart }) {
         </div>
 
         <div className="middle-section">
-          <input className="search-bar" type="text" placeholder="Search" value={search} onChange={getSearchText} />
+          <input 
+            className="search-bar" 
+            type="text" 
+            placeholder="Search" 
+            value={search} 
+            onChange={getSearchText}
+            onKeyDown={keyDownSearch}
+          />
 
           <button className="search-button">
             <img className="search-icon" src={searchIcon} onClick={searchItem} />
