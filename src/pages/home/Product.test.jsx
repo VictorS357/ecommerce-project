@@ -1,9 +1,13 @@
 import { it, expect, describe, vi } from "vitest";
 import { render, screen } from "@testing-library/react";
-import { Product } from './Product';
+import userEvent from "@testing-library/user-event";
+import axios from "axios";
+import Product from './Product';
 
-it('Product component', () => {
-  describe('displays the product details correctly', () => {
+vi.mock('axios'); //mocks the entire axios package (gets a fake version of axios so it doesn't contact a real backend)
+
+describe('Product component', () => {
+  it('displays the product details correctly', () => {
     const product = {
       id: "e43638ce-6aa0-4b85-b27f-e1d07eb678c6",
       image: "images/products/athletic-cotton-socks-6-pairs.jpg",
@@ -14,14 +18,14 @@ it('Product component', () => {
       },
       priceCents: 1090,
       keywords: ["socks", "sports", "apparel"]
-    }
+    };
 
     const loadCart = vi.fn(); //creates a fake function that doesn't do nothing (tests can't contact a real backend)
 
     render(<Product product={product} loadCart={loadCart} />);
 
     expect(
-      screen.getByText('Black and Gray Athletic Cotton Socks - 6 Pairs') 
+      screen.getByText('Black and Gray Athletic Cotton Socks - 6 Pairs')
     ).toBeInTheDocument();
 
     expect(
@@ -40,5 +44,36 @@ it('Product component', () => {
       screen.getByText('87')
     ).toBeInTheDocument();
   });
-});
 
+  it('adds a product to the cart', async () => {
+    const product = {
+      id: "e43638ce-6aa0-4b85-b27f-e1d07eb678c6",
+      image: "images/products/athletic-cotton-socks-6-pairs.jpg",
+      name: "Black and Gray Athletic Cotton Socks - 6 Pairs",
+      rating: {
+        stars: 4.5,
+        count: 87
+      },
+      priceCents: 1090,
+      keywords: ["socks", "sports", "apparel"]
+    }
+
+    const loadCart = vi.fn();
+
+    render(<Product product={product} loadCart={loadCart} />);
+
+    const user = userEvent.setup();
+    const addToCartButton = screen.getByTestId('add-to-cart-button');
+    await user.click(addToCartButton);
+
+    expect(axios.post).toHaveBeenCalledWith(
+      '/api/cart-items', 
+      {
+        productId: "e43638ce-6aa0-4b85-b27f-e1d07eb678c6",
+        quantity: 1
+      }
+    );
+
+    expect(loadCart).toHaveBeenCalled();
+  });
+});
