@@ -69,9 +69,11 @@ describe('Product component', () => {
     expect(loadCart).toHaveBeenCalled();
   });
 
-  it('select a quantity', () => {
+  it('select a quantity', async () => {
     const quantitySelector =  screen.getByTestId('quantity-selector');
+    const user = userEvent.setup();
+    await user.selectOptions(quantitySelector, '3')
 
-    expect(quantitySelector).toHaveValue('1');
+    expect(quantitySelector).toHaveValue('3');
   });
 });
