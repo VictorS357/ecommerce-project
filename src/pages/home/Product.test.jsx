@@ -1,5 +1,5 @@
 import { it, expect, describe, vi, beforeEach } from "vitest";
-import { render, screen } from "@testing-library/react";
+import { getByText, render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import axios from "axios";
 import Product from './Product';
@@ -25,10 +25,12 @@ describe('Product component', () => {
   };
 
   loadCart = vi.fn();
+
+  render(<Product product={product} loadCart={loadCart} />);
   });
 
   it('displays the product details correctly', () => {
-    render(<Product product={product} loadCart={loadCart} />);
+    
 
     expect(
       screen.getByText('Black and Gray Athletic Cotton Socks - 6 Pairs')
@@ -52,8 +54,6 @@ describe('Product component', () => {
   });
 
   it('adds a product to the cart', async () => {
-    render(<Product product={product} loadCart={loadCart} />);
-
     const user = userEvent.setup();
     const addToCartButton = screen.getByTestId('add-to-cart-button');
     await user.click(addToCartButton);
@@ -67,5 +67,11 @@ describe('Product component', () => {
     );
 
     expect(loadCart).toHaveBeenCalled();
+  });
+
+  it('select a quantity', () => {
+    const quantitySelector =  screen.getByTestId('quantity-selector');
+
+    expect(quantitySelector).toHaveValue('1');
   });
 });
